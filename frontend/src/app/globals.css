@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #050508;
+  --bg-secondary: #0D0D14;
+  --bg-tertiary: #13131F;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #050508;
+  color: #F1F5F9;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0D0D14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E1E2E;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2A2A3E;
+}
+
+/* Textarea */
+textarea {
+  resize: none;
+  scrollbar-width: thin;
+  scrollbar-color: #1E1E2E #0D0D14;
+}
+
+/* Glow text effects */
+.glow-blue {
+  text-shadow: 0 0 20px #3B82F640;
+}
+.glow-green {
+  text-shadow: 0 0 20px #22C55E40;
+}
+.glow-red {
+  text-shadow: 0 0 20px #EF444440;
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  background: #111118;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #3B82F630, #60A5FA10, #3B82F630);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Score circle animation */
+.score-circle {
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Sentence highlight */
+.sentence-human {
+  background: linear-gradient(90deg, #22C55E08, transparent);
+  border-left: 2px solid #22C55E40;
+  padding-left: 6px;
+  border-radius: 2px;
+}
+.sentence-uncertain {
+  background: linear-gradient(90deg, #EAB30808, transparent);
+  border-left: 2px solid #EAB30840;
+  padding-left: 6px;
+  border-radius: 2px;
+}
+.sentence-ai {
+  background: linear-gradient(90deg, #EF444408, transparent);
+  border-left: 2px solid #EF444440;
+  padding-left: 6px;
+  border-radius: 2px;
+}
+
+/* Metric bar fill animation */
+@keyframes barFill {
+  from { width: 0%; }
+  to { width: var(--bar-width); }
+}
+.metric-bar-fill {
+  animation: barFill 1s ease-out forwards;
+  animation-delay: var(--bar-delay, 0ms);
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .score-circle,
+  .metric-bar-fill,
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
