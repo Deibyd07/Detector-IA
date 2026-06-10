@@ -1,50 +1,50 @@
 # DetectAI
 
-A full-stack web application for detecting AI-generated text and humanizing it. The detector runs a multi-layer statistical analysis engine; the humanizer rewrites flagged text using the Claude API to make it read as naturally human-written.
+Aplicación web completa para detectar texto generado por IA y humanizarlo. El detector ejecuta un motor de análisis estadístico multicapa; el humanizador reescribe el texto marcado usando la API de Claude para que suene naturalmente humano.
 
 ---
 
-## Features
+## Funcionalidades
 
 ### Detector
-Analyzes text across nine independent metrics and combines them into a single 0–100 AI probability score:
+Analiza el texto en nueve métricas independientes y las combina en un puntaje de probabilidad IA del 0 al 100:
 
-| Metric | Weight | What it measures |
+| Métrica | Peso | Qué mide |
 |---|---|---|
-| AI Phrase Density | 24% | 160+ high-confidence AI-signature phrases |
-| Sentence Burstiness | 20% | Coefficient of variation in sentence lengths |
-| Transition Word Density | 10% | Overuse of formal connectors |
-| Contraction Absence | 9% | AI rarely uses contractions in formal prose |
-| Personal Voice | 9% | First-person pronoun ratio |
-| Formality Level | 8% | Overly academic vocabulary |
-| Sentence Openers | 7% | Repetitive AI framing patterns |
-| Lexical Diversity (MATTR) | 7% | Moving Average Type-Token Ratio |
-| Paragraph Coherence | 6% | Inter-paragraph cosine similarity via TF-IDF |
+| Densidad de frases IA | 24% | Más de 160 frases características de la IA |
+| Burstiness de oraciones | 20% | Coeficiente de variación en la longitud de oraciones |
+| Densidad de conectores | 10% | Abuso de conectores formales |
+| Ausencia de contracciones | 9% | La IA rara vez usa contracciones en prosa formal |
+| Voz personal | 9% | Proporción de pronombres en primera persona |
+| Nivel de formalidad | 8% | Vocabulario excesivamente académico |
+| Diversidad de openers | 7% | Patrones de inicio de oración repetitivos |
+| Diversidad léxica (MATTR) | 7% | Moving Average Type-Token Ratio |
+| Coherencia entre párrafos | 6% | Similitud coseno entre párrafos vía TF-IDF |
 
-A nonlinear calibration step stretches scores away from 50 to improve discrimination. Sentence-level scoring is also available, highlighting which sentences contributed most to the AI signal.
+Un paso de calibración no lineal estira los puntajes alejándolos del centro para mejorar la discriminación. También se calcula un puntaje por oración, resaltando cuáles contribuyeron más a la señal IA.
 
-Verdicts: **Human Written** · **Likely Human** · **Uncertain** · **Likely AI** · **AI Generated**
+Veredictos: **Escrito por humano** · **Probablemente humano** · **Incierto** · **Probablemente IA** · **Generado por IA**
 
-### Humanizer
-Three intensity modes powered by the Claude API:
+### Humanizador
+Tres modos de intensidad impulsados por la API de Claude:
 
-- **Subtle** — removes AI phrases, minimal structural changes
-- **Balanced** — full rewrite with sentence variety, contractions, and personal voice
-- **Aggressive** — complete restructure; same ideas, entirely new expression
+- **Sutil** — elimina frases IA con cambios estructurales mínimos
+- **Equilibrado** — reescritura completa con variedad de oraciones, contracciones y voz personal
+- **Agresivo** — reestructuración total; mismas ideas, expresión completamente nueva
 
-The humanizer targets GPTZero, Originality.ai, Turnitin, Copyleaks, and similar detectors.
+El humanizador apunta a evadir detectores como GPTZero, Originality.ai, Turnitin y Copyleaks.
 
 ---
 
-## Tech Stack
+## Stack tecnológico
 
 **Backend**
 - Python 3.11+
 - FastAPI + Uvicorn
-- NLTK (tokenization, stopwords)
-- scikit-learn (TF-IDF, cosine similarity)
+- NLTK (tokenización, stopwords)
+- scikit-learn (TF-IDF, similitud coseno)
 - NumPy
-- Anthropic SDK (Claude API)
+- Anthropic SDK (API de Claude)
 
 **Frontend**
 - Next.js 14 (App Router)
@@ -55,22 +55,22 @@ The humanizer targets GPTZero, Originality.ai, Turnitin, Copyleaks, and similar 
 
 ---
 
-## Getting Started
+## Cómo empezar
 
-### Prerequisites
+### Requisitos previos
 
 - Python 3.11+
 - Node.js 18+
-- An [Anthropic API key](https://console.anthropic.com/) (required only for the Humanizer)
+- Una [API key de Anthropic](https://console.anthropic.com/) (solo necesaria para el Humanizador)
 
-### 1. Clone the repository
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/Deibyd07/Detector-IA.git
 cd Detector-IA
 ```
 
-### 2. Backend setup
+### 2. Configurar el backend
 
 ```bash
 cd backend
@@ -83,28 +83,28 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create the environment file:
+Crear el archivo de entorno:
 
 ```bash
 cp .env.example .env
 ```
 
-Open `.env` and add your Anthropic API key:
+Abrir `.env` y agregar la API key de Anthropic:
 
 ```env
-ANTHROPIC_API_KEY=sk-ant-your-key-here
+ANTHROPIC_API_KEY=sk-ant-tu-clave-aqui
 FRONTEND_URL=http://localhost:3000
 ```
 
-Start the API server:
+Iniciar el servidor de la API:
 
 ```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-The API will be available at `http://localhost:8000`. Interactive docs at `http://localhost:8000/docs`.
+La API estará disponible en `http://localhost:8000`. Documentación interactiva en `http://localhost:8000/docs`.
 
-### 3. Frontend setup
+### 3. Configurar el frontend
 
 ```bash
 cd frontend
@@ -112,32 +112,32 @@ npm install
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`.
+La aplicación estará disponible en `http://localhost:3000`.
 
-### 4. One-command launch (Windows)
+### 4. Inicio con un solo comando (Windows)
 
 ```powershell
 .\start.ps1
 ```
 
-This opens both servers in separate PowerShell windows.
+Abre ambos servidores en ventanas de PowerShell separadas.
 
 ---
 
-## API Reference
+## Referencia de la API
 
 ### `POST /api/v1/detect`
 
-Analyzes text and returns an AI probability score.
+Analiza el texto y devuelve un puntaje de probabilidad IA.
 
-**Request body**
+**Cuerpo de la petición**
 ```json
 {
-  "text": "Your text here..."
+  "text": "Tu texto aquí..."
 }
 ```
 
-**Response**
+**Respuesta**
 ```json
 {
   "score": 84.2,
@@ -162,19 +162,19 @@ Analyzes text and returns an AI probability score.
 
 ### `POST /api/v1/humanize`
 
-Rewrites AI-generated text to sound human.
+Reescribe texto generado por IA para que suene humano.
 
-**Request body**
+**Cuerpo de la petición**
 ```json
 {
-  "text": "Your AI-generated text here...",
+  "text": "Tu texto generado por IA aquí...",
   "intensity": "balanced"
 }
 ```
 
-`intensity` accepts `"subtle"`, `"balanced"`, or `"aggressive"`.
+`intensity` acepta `"subtle"`, `"balanced"` o `"aggressive"`.
 
-**Response**
+**Respuesta**
 ```json
 {
   "original": "...",
@@ -196,7 +196,7 @@ Rewrites AI-generated text to sound human.
 
 ---
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 Detector-IA/
@@ -210,8 +210,8 @@ Detector-IA/
 │   │   ├── models/
 │   │   │   └── schemas.py
 │   │   ├── services/
-│   │   │   ├── detector.py       # Detection engine
-│   │   │   ├── humanizer.py      # Claude-powered rewriter
+│   │   │   ├── detector.py         # Motor de detección
+│   │   │   ├── humanizer.py        # Reescritor con Claude
 │   │   │   └── humanizer_rules.py
 │   │   └── main.py
 │   ├── requirements.txt
@@ -232,8 +232,8 @@ Detector-IA/
 
 ---
 
-## Notes
+## Notas
 
-- The detector works without an API key. Only the Humanizer requires `ANTHROPIC_API_KEY`.
-- Accuracy improves significantly with texts of 150+ words. Short texts return a `Low` confidence rating.
-- The humanizer uses `claude-opus-4-7` for best rewriting quality.
+- El detector funciona sin API key. Solo el Humanizador requiere `ANTHROPIC_API_KEY`.
+- La precisión mejora significativamente con textos de 150 palabras o más. Los textos cortos devuelven confianza `Low`.
+- El humanizador usa `claude-opus-4-7` para obtener la mejor calidad de reescritura.
